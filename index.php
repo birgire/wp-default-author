@@ -1,61 +1,61 @@
 <?php
-	/*
-		Plugin Name: Default Author
-		Plugin URI:  http://wordpress.org/extend/plugins/thedefault/
-		Description: Default author settings
-		Version:     1.0.1
-		Author:      birgire
-		Author URI:  http://profiles.wordpress.org/birgire
-		License:     GPLv2
-	*/
+/*
+Plugin Name: Default Author
+Plugin URI:  http://wordpress.org/extend/plugins/wp-default-author/
+Description: Default author settings
+Version:     1.0.1
+Author:      birgire
+Author URI:  http://profiles.wordpress.org/birgire
+License:     GPLv2
+*/
+	
+/**
+ * Init the Default_Author class
+*/
+if( ! class_exists( 'Default_Author' ) ):
 	
 	/**
-		* Init the Default_Author class
+	* Calls the class
 	*/
-	if( ! class_exists( 'Default_Author' ) ):
-	
-	/**
-		* Calls the class
-	*/
-	function call_Default_Author() {
+	function call_WP_Default_Author() {
 
 		// only activate if the current user is an Editor
 		if( current_user_can( 'edit_others_posts' ) ):
-			return new Default_Author();
+			return new WP_Default_Author();
 		else:
 			return;
 		endif;
 	}
 	
 	if ( is_admin() ):
-		add_action( 'init', 'call_Default_Author' );
+		add_action( 'init', 'call_WP_Default_Author' );
 	endif;
 	
 	/**
 		*  Class Default_Author
 	*/
-	class Default_Author{
+	class WP_Default_Author{
 		
-		protected $plugin_domain = 'deau';		
-		protected $default_author_option_name = 'deau_default_author';
+		protected $plugin_domain = 'wpdeau';		
+		protected $default_author_option_name = 'wpdeau_default_author';
 		
 		/**
 			*	Class init
 		*/
     	public function __construct(){
 
-			add_action( 'admin_init', array( &$this,'init' ) );
-			add_action( 'show_user_profile', array( &$this, 'show_settings' ) );
-			add_action( 'edit_user_profile', array( &$this, 'show_settings' ) );
-			add_action( 'personal_options_update', array( &$this, 'save_settings' ) );
+			add_action( 'admin_init', 				array( &$this,'init' ) );
+			add_action( 'show_user_profile', 		array( &$this, 'show_settings' ) );
+			add_action( 'edit_user_profile', 		array( &$this, 'show_settings' ) );
+			add_action( 'personal_options_update', 	array( &$this, 'save_settings' ) );
 			add_action( 'edit_user_profile_update', array( &$this, 'save_settings' ) );
-			add_filter( 'wp_insert_post_data', array( &$this, 'wp_insert_post_data_callback' ), '99', 2 );
+			add_filter( 'wp_insert_post_data', 		array( &$this, 'wp_insert_post_data_callback' ), '99', 2 );
 			
 		}
 		
 		/**
-			*	Modify the post author, just before the insert new post
-		*/
+		 *	Modify the post author, just before the insert new post
+		 */
 		public function wp_insert_post_data_callback( $data , $pa ) {
 		
 			$current_user = wp_get_current_user();
@@ -82,8 +82,8 @@
 		}
 		
 		/**
-			*	Save settings
-		*/
+		 *	Save settings
+		 */
 		public function save_settings( $user_id ) {
 			
 			// only allow editors to save
@@ -104,8 +104,8 @@
 		}
 		
 		/**
-			*	settings page
-		*/		
+		 *	settings page
+		 */		
 		public function show_settings( $user ) { ?>
 		<h3>
 			<?php _e('Default Author Settings', $this->plugin_domain ); ?>
@@ -139,6 +139,6 @@
 		
 	} // end class
 	
-	endif; //end if class_exists
+endif; //end if class_exists
 
 		
