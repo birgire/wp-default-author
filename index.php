@@ -36,13 +36,13 @@ if( ! class_exists( 'Default_Author' ) ):
 	*/
 	class WP_Default_Author{
 		
-		protected $plugin_domain = 'wpdeau';		
-		protected $default_author_option_name = 'wpdeau_default_author';
+		protected $plugin_domain 				= 'wpdeau';		
+		protected $default_author_option_name 	= 'wpdeau_default_author';
 		
 		/**
-			*	Class init
-		*/
-    	public function __construct(){
+		 * Class init
+		 */
+		public function __construct(){
 
 			add_action( 'admin_init', 				array( &$this,'init' ) );
 			add_action( 'show_user_profile', 		array( &$this, 'show_settings' ) );
@@ -54,7 +54,7 @@ if( ! class_exists( 'Default_Author' ) ):
 		}
 		
 		/**
-		 *	Modify the post author, just before the insert new post
+		 * Modify the post author, just before the insert new post
 		 */
 		public function wp_insert_post_data_callback( $data , $pa ) {
 		
@@ -82,7 +82,7 @@ if( ! class_exists( 'Default_Author' ) ):
 		}
 		
 		/**
-		 *	Save settings
+		 * Save settings
 		 */
 		public function save_settings( $user_id ) {
 			
@@ -104,7 +104,7 @@ if( ! class_exists( 'Default_Author' ) ):
 		}
 		
 		/**
-		 *	settings page
+		 * Settings page
 		 */		
 		public function show_settings( $user ) { ?>
 		<h3>
