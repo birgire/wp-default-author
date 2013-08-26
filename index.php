@@ -3,7 +3,7 @@
 Plugin Name: Default Author
 Plugin URI:  http://wordpress.org/extend/plugins/wp-default-author/
 Description: Default author settings
-Version:     1.0.1
+Version:     1.0.2
 Author:      birgire
 Author URI:  http://profiles.wordpress.org/birgire
 License:     GPLv2
@@ -32,8 +32,8 @@ if( ! class_exists( 'Default_Author' ) ):
     endif;
     
     /**
-        *  Class Default_Author
-    */
+     * Class Default_Author
+     */
     class WP_Default_Author{
         
         protected $plugin_domain                = 'wpdeau';     
