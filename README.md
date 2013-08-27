@@ -13,3 +13,4 @@ The settings for each user is under `profile.php`.
 
 Note that the user settings will overwrite global settings.
 
+The user can always change the author of each post later on.

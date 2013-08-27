@@ -3,11 +3,18 @@
 Plugin Name: WP Default Author
 Plugin URI:  http://wordpress.org/extend/plugins/wp-default-author/
 Description: Default author settings (defined both globally and per user) 
-Version:     1.0.4
+Version:     1.0.5
 Author:      birgire
 Author URI:  http://profiles.wordpress.org/birgire
 License:     GPLv2
 */
+
+
+/**
+ * No direct access
+*/
+defined( 'ABSPATH' ) or die( 'Nothing here!' );
+
 
 /**
  * Init the Default_Author class
@@ -27,6 +34,7 @@ if( ! class_exists( 'WP_Default_Author' ) ):
 		endif;
 	}
 	
+	// we only need it for the backend
 	if ( is_admin() ):
 		add_action( 'init', 'call_WP_Default_Author' );
 	endif;
@@ -55,7 +63,9 @@ if( ! class_exists( 'WP_Default_Author' ) ):
 		}
 
 		/**
-		 * Init
+		 * Plugin init
+		 * @since 1.0.3
+		 * @return boolean
 		 */
 		public function init(){
 			
@@ -71,11 +81,14 @@ if( ! class_exists( 'WP_Default_Author' ) ):
 				array( &$this, 'show_global_settings_field' ),
 				'writing'
 			);
-	
+		
+			return true;
 		}
 		
 		/**
 		 * Modify the post author, just before the insert new post
+		 * @since 1.0.1
+		 * @return array $data Post data to save
 		 */
 		public function wp_insert_post_data_callback( $data , $pa ) {
 		
@@ -98,27 +111,34 @@ if( ! class_exists( 'WP_Default_Author' ) ):
 			// if not then check if the current user has one
 			// else use the current author as the post author
 			
-			$default_global_author = get_option( $this->default_global_author_option_name , true );
-            $default_author = get_the_author_meta( $this->default_author_option_name , $current_user->ID );
+			$default_global_author 	= get_option( $this->default_global_author_option_name , true );
+            $default_author 		= get_the_author_meta( $this->default_author_option_name , $current_user->ID );
+
             if( $default_author ){
-				$data['post_author'] = $default_author;
-             }elseif( $default_global_author ){
-					$data['post_author'] = $default_global_author;
-			}
+			    $data['post_author'] = $default_author;
+            }elseif( $default_global_author ){
+                $data['post_author'] = $default_global_author;
+            }
 			
 			return $data;
 		}
 		
 		/**
-		* Validate global settings field 
+		* Validate global settings field from the Options/Writing Settings page
+		* @since 1.0.3
+		* @param string $input
+		* @return string $output Sanitized input
 		*/
 		public function validate_global_settings( $input ) {
-			return esc_attr( $input );
+			$output = esc_attr( $input );
+			return $output;
 		}
 
 		/**
-		* Show global settings field
-		*/
+		 * Show the global default author settings on the Options/Writing Settings page
+		 * @since 1.0.3
+		 * @return boolean
+		 */
 		public function show_global_settings_field() {
 			$selected_global_author = get_option(  $this->default_global_author_option_name, true );
 						
@@ -134,11 +154,16 @@ if( ! class_exists( 'WP_Default_Author' ) ):
 					<?php _e( 'This will leave the default user defined per user intact', $this->plugin_domain ); ?>
 				</span>
 			<?php
+			
+			return true;
 		}
 
 		
 		/**
-		 * Save Profile settings
+		 * Save default author settings on the Profile Settings page
+		 * @since 1.0.1
+		 * @param integer $user_id
+		 * @return boolean
 		 */
 		public function save_user_settings( $user_id ) {
 			
@@ -157,15 +182,20 @@ if( ! class_exists( 'WP_Default_Author' ) ):
 			if( $value > 0 ):
 				update_usermeta( $user_id, $this->default_author_option_name, $value);
 			endif;
+			
+			return true;
 		}
 		
 		/**
-		 * Show Profile Settings part
+		 * Show the default author settings on the Profile Settings page
+		 * @since 1.0.1
+		 * @param object $user WP_User Object
+		 * @return boolean
 		 */		
 		public function show_user_settings( $user ) { 
 		?>
 		<h3>
-			<?php _e('Default Author Settings', $this->plugin_domain ); ?>
+			<?php _e( 'Default Author Settings', $this->plugin_domain ); ?>
 		</h3>
 		<table class="form-table">		
 			<tr>
@@ -185,13 +215,15 @@ if( ! class_exists( 'WP_Default_Author' ) ):
 						wp_dropdown_users( $args );
 					?>
 					<span class="description">
-						<?php _e( 'Please select the default author', $this->plugin_domain ); ?>
+						<?php _e( 'Select the default author', $this->plugin_domain ); ?>
 					</span>
 				</td>
 			</tr>
 			
 		</table>
-		<?php }
+		<?php 
+			return true;
+		}
 		
 		
 	} // end class
