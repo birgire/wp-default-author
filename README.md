@@ -11,5 +11,5 @@ The global settings are under `options-writing.php`.
 
 The settings for each user is `under profile.php`.
 
-Note that the global settings will overwrite every user settings.
+Note that the user settings will overwrite global settings.
 
