@@ -131,7 +131,7 @@ if( ! class_exists( 'WP_Default_Author' ) ):
 				wp_dropdown_users( $args );
 			?>
 				<span class="description">
-					<?php _e( 'This will overwrite the default user defined per user', $this->plugin_domain ); ?>
+					<?php _e( 'This will leave the default user defined per user intact', $this->plugin_domain ); ?>
 				</span>
 			<?php
 		}
