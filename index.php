@@ -215,7 +215,7 @@ if( ! class_exists( 'WP_Default_Author' ) ):
 						wp_dropdown_users( $args );
 					?>
 					<span class="description">
-						<?php _e( 'Select the default author', $this->plugin_domain ); ?>
+						<?php _e( 'Select the default author, this will overwrite the global settings.', $this->plugin_domain ); ?>
 					</span>
 				</td>
 			</tr>
