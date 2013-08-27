@@ -99,13 +99,11 @@ if( ! class_exists( 'WP_Default_Author' ) ):
 			// else use the current author as the post author
 			
 			$default_global_author = get_option( $this->default_global_author_option_name , true );
-			if( $default_global_author ){
-				$data['post_author'] = $default_global_author;
-			}else{
-				$default_author = get_the_author_meta( $this->default_author_option_name , $current_user->ID );
-				if( $default_author ):
-					$data['post_author'] = $default_author;
-				endif;
+            $default_author = get_the_author_meta( $this->default_author_option_name , $current_user->ID );
+            if( $default_author ){
+				$data['post_author'] = $default_author;
+             }elseif( $default_global_author ){
+					$data['post_author'] = $default_global_author;
 			}
 			
 			return $data;
