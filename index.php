@@ -3,7 +3,7 @@
 Plugin Name: WP Default Author
 Plugin URI:  http://wordpress.org/extend/plugins/wp-default-author/
 Description: Default author settings (defined both globally and per user) 
-Version:     1.0.3
+Version:     1.0.4
 Author:      birgire
 Author URI:  http://profiles.wordpress.org/birgire
 License:     GPLv2
