@@ -70,7 +70,7 @@ if( ! class_exists( 'WP_Default_Author' ) ):
 		public function init(){
 			
             $plugin_dir = basename(dirname(__FILE__));
-            load_plugin_textdomain( 'wp-default-author', false, $plugin_dir);
+            load_plugin_textdomain( $this-plugin_comain, false, $plugin_dir);
 			register_setting( 
 				'writing', 
 				$this->default_global_author_option_name, 
