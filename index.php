@@ -69,13 +69,13 @@ if( ! class_exists( 'WP_Default_Author' ) ):
 		 */
 		public function init(){
 			
-            $plugin_dir = basename(dirname(__FILE__));
-            load_plugin_textdomain( $this-plugin_comain, false, $plugin_dir);
-			register_setting( 
-				'writing', 
-				$this->default_global_author_option_name, 
-				array( $this, 'validate_global_settings' ) 
-			);
+		   $plugin_dir = basename( dirname( __FILE__ ) );
+		   load_plugin_textdomain( $this->plugin_comain, false, $plugin_dir);
+		   register_setting( 
+			  'writing', 
+			  $this->default_global_author_option_name, 
+			  array( $this, 'validate_global_settings' ) 
+		   );
 		
 			add_settings_field(
 				 $this->default_global_author_option_name,
