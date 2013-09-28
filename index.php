@@ -12,40 +12,38 @@ License:     GPLv2
 
 /**
  * No direct access
-*/
+ */
 defined( 'ABSPATH' ) or die( 'Nothing here!' );
 
 
 /**
  * Init the Default_Author class
-*/
+ */
 if( ! class_exists( 'WP_Default_Author' ) ):
 	
 	/**
-	* Calls the class
-	*/
+	 * Call the class
+	 */
 	function call_WP_Default_Author() {
 
 		// only activate if the current user is an Editor
-		if( current_user_can( 'edit_others_posts' ) ):
+		if( current_user_can( 'edit_others_posts' ) )
 			return new WP_Default_Author();
-		else:
-			return;
-		endif;
+
 	}
 	
 	// we only need it for the backend
-	if ( is_admin() ):
+	if ( is_admin() )
 		add_action( 'init', 'call_WP_Default_Author' );
-	endif;
 	
+
 	/**
-		*  Class Default_Author
-	*/
+	 *  Class Default_Author
+	 */
 	class WP_Default_Author{
 		
-		protected $plugin_domain 						= 'wpdeau';		
-		protected $default_author_option_name 			= 'wpdeau_default_author';
+		protected $plugin_domain 			= 'wpdeau';		
+		protected $default_author_option_name 		= 'wpdeau_default_author';
 		protected $default_global_author_option_name 	= 'wpdeau_global_default_author';
 		
 		/**
@@ -53,29 +51,32 @@ if( ! class_exists( 'WP_Default_Author' ) ):
 		 */
 		public function __construct(){
 
-			add_action( 'admin_init', 				array( &$this, 'init' ) );
-			add_action( 'show_user_profile', 		array( &$this, 'show_user_settings' ) );
-			add_action( 'edit_user_profile', 		array( &$this, 'show_user_settings' ) );
+			add_action( 'admin_init', 		array( &$this, 'init' ) );
+			add_action( 'show_user_profile', 	array( &$this, 'show_user_settings' ) );
+			add_action( 'edit_user_profile', 	array( &$this, 'show_user_settings' ) );
 			add_action( 'personal_options_update', 	array( &$this, 'save_user_settings' ) );
 			add_action( 'edit_user_profile_update', array( &$this, 'save_user_settings' ) );
-			add_filter( 'wp_insert_post_data', 		array( &$this, 'wp_insert_post_data_callback' ), '99', 2 );
+			add_filter( 'wp_insert_post_data', 	array( &$this, 'wp_insert_post_data_callback' ), '99', 2 );
 			
 		}
+
 
 		/**
 		 * Plugin init
 		 * @since 1.0.3
-		 * @return boolean
+		 * @return void
 		 */
+
 		public function init(){
 			
-		   $plugin_dir = basename( dirname( __FILE__ ) );
-		   load_plugin_textdomain( $this->plugin_comain, false, $plugin_dir);
-		   register_setting( 
-			  'writing', 
-			  $this->default_global_author_option_name, 
-			  array( $this, 'validate_global_settings' ) 
-		   );
+			$plugin_dir = basename( dirname( __FILE__ ) );
+			load_plugin_textdomain( $this->plugin_comain, false, $plugin_dir . '/languages/' );
+
+			register_setting( 
+				'writing', 
+				$this->default_global_author_option_name, 
+				array( $this, 'validate_global_settings' ) 
+			);
 		
 			add_settings_field(
 				 $this->default_global_author_option_name,
@@ -84,14 +85,15 @@ if( ! class_exists( 'WP_Default_Author' ) ):
 				'writing'
 			);
 		
-			return true;
 		}
+
 		
 		/**
 		 * Modify the post author, just before the insert new post
 		 * @since 1.0.1
 		 * @return array $data Post data to save
 		 */
+
 		public function wp_insert_post_data_callback( $data , $pa ) {
 		
 			$current_user = wp_get_current_user();
@@ -114,33 +116,36 @@ if( ! class_exists( 'WP_Default_Author' ) ):
 			// else use the current author as the post author
 			
 			$default_global_author 	= get_option( $this->default_global_author_option_name , true );
-            $default_author 		= get_the_author_meta( $this->default_author_option_name , $current_user->ID );
+            		$default_author 	= get_the_author_meta( $this->default_author_option_name , $current_user->ID );
 
-            if( $default_author ){
-			    $data['post_author'] = $default_author;
-            }elseif( $default_global_author ){
-                $data['post_author'] = $default_global_author;
-            }
+			if( $default_author ){
+				$data['post_author'] = $default_author;
+			}elseif( $default_global_author ){
+				$data['post_author'] = $default_global_author;
+			}
 			
 			return $data;
 		}
 		
 		/**
-		* Validate global settings field from the Options/Writing Settings page
-		* @since 1.0.3
-		* @param string $input
-		* @return string $output Sanitized input
-		*/
+		 * Validate global settings field from the Options/Writing Settings page
+		 * @since 1.0.3
+		 * @param string $input
+		 * @return string $output Sanitized input
+		 */
+
 		public function validate_global_settings( $input ) {
 			$output = esc_attr( $input );
 			return $output;
 		}
 
+
 		/**
 		 * Show the global default author settings on the Options/Writing Settings page
 		 * @since 1.0.3
-		 * @return boolean
+		 * @return void
 		 */
+
 		public function show_global_settings_field() {
 			$selected_global_author = get_option(  $this->default_global_author_option_name, true );
 						
@@ -156,8 +161,6 @@ if( ! class_exists( 'WP_Default_Author' ) ):
 					<?php _e( 'This will leave the default user defined per user intact', $this->plugin_domain ); ?>
 				</span>
 			<?php
-			
-			return true;
 		}
 
 		
@@ -165,35 +168,34 @@ if( ! class_exists( 'WP_Default_Author' ) ):
 		 * Save default author settings on the Profile Settings page
 		 * @since 1.0.1
 		 * @param integer $user_id
-		 * @return boolean
+		 * @return void
 		 */
+
 		public function save_user_settings( $user_id ) {
 			
 			// only allow editors to save
-			if ( !current_user_can( 'edit_others_posts' ) ):
+			if ( !current_user_can( 'edit_others_posts' ) )
 				return false;
-			endif;
 			
 			// check if the input is set
 			$value = 0;
-			if( isset( $_POST[$this->default_author_option_name] ) ):
+			if( isset( $_POST[$this->default_author_option_name] ) )
 				$value = $_POST[$this->default_author_option_name];
-			endif;
 			
 			// update user meta
-			if( $value > 0 ):
-				update_usermeta( $user_id, $this->default_author_option_name, $value);
-			endif;
+			if( $value > 0 )
+				update_usermeta( $user_id, $this->default_author_option_name, $value );
 			
-			return true;
 		}
+
 		
 		/**
 		 * Show the default author settings on the Profile Settings page
 		 * @since 1.0.1
 		 * @param object $user WP_User Object
-		 * @return boolean
+		 * @return void
 		 */		
+
 		public function show_user_settings( $user ) { 
 		?>
 		<h3>
@@ -224,7 +226,6 @@ if( ! class_exists( 'WP_Default_Author' ) ):
 			
 		</table>
 		<?php 
-			return true;
 		}
 		
 		
