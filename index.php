@@ -70,7 +70,7 @@ if( ! class_exists( 'WP_Default_Author' ) ):
 		public function init(){
 			
 			$plugin_dir = basename( dirname( __FILE__ ) );
-			load_plugin_textdomain( $this->plugin_comain, false, $plugin_dir . '/languages/' );
+			load_plugin_textdomain( $this->plugin_comain, FALSE, $plugin_dir . '/languages/' );
 
 			register_setting( 
 				'writing', 
@@ -115,7 +115,7 @@ if( ! class_exists( 'WP_Default_Author' ) ):
 			// if not then check if the current user has one
 			// else use the current author as the post author
 			
-			$default_global_author 	= get_option( $this->default_global_author_option_name , true );
+			$default_global_author 	= get_option( $this->default_global_author_option_name , TRUE );
             		$default_author 	= get_the_author_meta( $this->default_author_option_name , $current_user->ID );
 
 			if( $default_author ){
@@ -147,7 +147,7 @@ if( ! class_exists( 'WP_Default_Author' ) ):
 		 */
 
 		public function show_global_settings_field() {
-			$selected_global_author = get_option(  $this->default_global_author_option_name, true );
+			$selected_global_author = get_option(  $this->default_global_author_option_name, TRUE );
 						
 			$args = array( 
 				'name' 				=> $this->default_global_author_option_name, 
@@ -175,7 +175,7 @@ if( ! class_exists( 'WP_Default_Author' ) ):
 			
 			// only allow editors to save
 			if ( !current_user_can( 'edit_others_posts' ) )
-				return false;
+				return FALSE;
 			
 			// check if the input is set
 			$value = 0;
