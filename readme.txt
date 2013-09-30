@@ -14,6 +14,10 @@ Changes the default author either gobally or for individual users.
 This plugin allows blog admins to change the default author globally so that when any user posts it appears under the same name.
 Admins and editors can also change the default author for a single user. This setting takes precedence over the global setting.
 
+= Source =
+
+The source of the plugin can be found at http://www.github.com/birgire/wp-default-author
+
 = Photo Credit =
 Plugin header picture is taken by Ólafur Jens Sigurðsson <ojsbug@gmail.com>. It's taken at Hnífsdalur, Ísafjarðarsýsla, Iceland
 
