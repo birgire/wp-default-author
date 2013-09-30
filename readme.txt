@@ -15,7 +15,7 @@ This plugin allows blog admins to change the default author globally so that whe
 Admins and editors can also change the default author for a single user. This setting takes precedence over the global setting.
 
 = Photo Credit =
-Plugin header picture is taken by Ólafur Jens Sigurðsson <ojsbug@gmail.com>.It's taken at Hnífsdalur, Ísafjarðarsýsla, Iceland
+Plugin header picture is taken by Ólafur Jens Sigurðsson <ojsbug@gmail.com>. It's taken at Hnífsdalur, Ísafjarðarsýsla, Iceland
 
 == Installation ==
 
