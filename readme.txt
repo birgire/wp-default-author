@@ -16,7 +16,7 @@ Admins and editors can also change the default author for a single user. This se
 
 = Source =
 
-The source of the plugin can be found at http://www.github.com/birgire/wp-default-author
+The plugin is available at github: http://www.github.com/birgire/wp-default-author
 
 = Photo Credit =
 Plugin header picture is taken by Ólafur Jens Sigurðsson <ojsbug@gmail.com>. It's taken at Hnífsdalur, Ísafjarðarsýsla, Iceland
