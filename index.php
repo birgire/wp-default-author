@@ -70,7 +70,7 @@ if( ! class_exists( 'WP_Default_Author' ) ):
 		public function init(){
 			
 			$plugin_dir = basename( dirname( __FILE__ ) );
-			load_plugin_textdomain( $this->plugin_comain, FALSE, $plugin_dir . '/languages/' );
+			load_plugin_textdomain( $this->plugin_domain, FALSE, $plugin_dir . '/languages/' );
 
 			register_setting( 
 				'writing', 
